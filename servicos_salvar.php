@@ -17,13 +17,30 @@ and open the template in the editor.
     </head>
     <body>
         <!-- Inclusao do cabeçalho/topo que é padrão em todos as páginas do site -->
-        <?php include 'cabecalho.php'; ?>
+        <?php
+        include 'cabecalho.php'; 
+        ?>
 
         <!-- CORPO DA PÁGINA -->
 
         <form name="formServico" action="" method="post">
             <div id="body">
-
+        <?php
+        // PASSO 1: incluir as configiurações de BDA
+        include"conexao_bd.php";
+        // PASSO 2: capturar os valores informados pelo usuário
+        $descricao = $_POST["txtDescricao"];
+        $valor = $_POST["txtPreco"];
+        // PASSO 3: montar o comando sql de inserção
+        $sql="INSERT INTO  servico(descricao,valor) VALUES ('$descricao','$valor')";
+        // PASSO 4: executar o comando sql
+        if (executarComando($sql)){
+            echo"<h2> Operação realizada com sucesso! </h2>";
+        }
+        else{
+            echo"<h2> Não foi possível adicionar o serviço! </h2>";
+        }
+        ?>
                 
             </div>
         </form>

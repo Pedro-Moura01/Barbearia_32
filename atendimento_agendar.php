@@ -21,7 +21,7 @@ and open the template in the editor.
 
         <!-- CORPO DA PÁGINA -->
 
-        <form name="formAtendimento" action="" method="post">
+        <form name="formAtendimento" action="atendimento_salvar.php" method="post">
             <div id="body">
 
                 <h1><span>Agendar atendimento</span></h1>
@@ -34,7 +34,24 @@ and open the template in the editor.
 
                     <li>Selecione o seu serviço <br />
                         <select name="selectServico" class="input">
-                            <option></option>
+                            <?php
+                                //PASSO 1: Incluir o arquivo de configuração do BDA
+                                include "conexao_bd.php";
+                                //PASSO 2: Iniciar o comando de busca dos serviços - SELECT
+                                $sql = "SELECT * FROM servico ORDER BY descricao";
+                                //PASSO 3: Executar e trazer os resultados
+                                $resultado = retornarDados($sql);
+                                //PASSO 4: Capturar cada linha de dado e adicionar uma option (ITEM) a select
+                                while ($linha = mysqli_fetch_assoc ($resultado))
+                                {
+                                ?>
+                                    <option value="<?php echo $linha["id_servico"] ?>">
+                                        <?php echo $linha["descricao"] ?> , R$
+                                        <?php echo $linha["valor"] ?>
+                                    </option>
+                                <?php
+                                }        
+                            ?>    
                         </select>
                     </li>
 
